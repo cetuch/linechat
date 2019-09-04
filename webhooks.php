@@ -1,10 +1,7 @@
-<?php // callback.php
-
+ <?php // callback.php
 require "vendor/autoload.php";
 require_once('vendor/linecorp/line-bot-sdk/line-bot-sdk-tiny/LINEBotTiny.php');
-
-$access_token = 'mDPBPcQ0Fr6GCiX32OuP6DwxSUh5EqJApro32CVUiOq5POInzlN+JKU+Kzp9+VxgFOhAO71muZmg80gP2Lz1mPVu8z5B8gY+txex9uRFD1Un/oWQMNAddAx+eYjUIoIdB7+vdhzBcQkkW+UfkvXJTwdB04t89/1O/w1cDnyilFU=';
-
+$access_token = 'mDPBPcQ0Fr6GCiX32OuP6DwxSUh5EqJApro32CVUiOq5POInzlN+JKU+Kzp9+VxgFOhAO71muZmg80gP2Lz1mPVu8z5B8gY+txex9uRFD1Un/oWQMNAddAx+eYjUIoIdB7+vdhzBcQkkW+UfkvXJTwdB04t89/1O/w1cDnyilFU='; 
 // Get POST body content
 $content = file_get_contents('php://input');
 // Parse JSON
@@ -16,16 +13,15 @@ if (!is_null($events['events'])) {
 		// Reply only when message sent is in 'text' format
 		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
 			// Get text sent
-			$text = $event['source']['userId'];
+            //$text = $event['source']['userId'];   //เก็บ user iก line ที่พิมพ์เข้าไว้ที่ตัวแปร text
+            $text = 'hello';   //เก็บ user iก line ที่พิมพ์เข้าไว้ที่ตัวแปร text
 			// Get replyToken
 			$replyToken = $event['replyToken'];
-
 			// Build message to reply back
 			$messages = [
 				'type' => 'text',
 				'text' => $text
 			];
-
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
 			$data = [
@@ -34,7 +30,6 @@ if (!is_null($events['events'])) {
 			];
 			$post = json_encode($data);
 			$headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $access_token);
-
 			$ch = curl_init($url);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -43,9 +38,9 @@ if (!is_null($events['events'])) {
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 			$result = curl_exec($ch);
 			curl_close($ch);
-
 			echo $result . "\r\n";
 		}
 	}
 }
 echo "OK";
+
